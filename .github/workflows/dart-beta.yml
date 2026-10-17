@@ -1,0 +1,157 @@
+# Weekly check against the Dart / Flutter beta SDK. Failures here do not block merges.
+# Pull requests keep using the stable jobs in dart.yml.
+
+name: Dart & Flutter (beta)
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format:
+    name: Format (beta)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: beta
+
+      - name: Cache pub dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.pub-cache
+          key: pub-beta-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-beta-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+  analyze:
+    name: Analyze (beta)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: beta
+
+      - name: Cache pub dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.pub-cache
+          key: pub-beta-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-beta-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze project source
+        run: dart analyze --fatal-infos
+
+  fix:
+    name: Fix (beta)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: beta
+
+      - name: Cache pub dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.pub-cache
+          key: pub-beta-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-beta-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check automated fixes
+        shell: bash
+        run: |
+          output="$(dart fix --dry-run)"
+          echo "$output"
+          if ! grep -q "Nothing to fix!" <<< "$output"; then
+            echo "::error::Automated Dart fixes are available. Run 'dart fix --apply'."
+            exit 1
+          fi
+
+  test:
+    name: Test (beta)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: beta
+
+      - name: Cache pub dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.pub-cache
+          key: pub-beta-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-beta-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Core & CLI tests
+        run: |
+          dart test packages/core
+          dart test packages/cli
+
+      - name: Run Flutter App tests
+        run: flutter test packages/app
+
+  build-cli:
+    name: Build CLI (beta)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: beta
+
+      - name: Cache pub dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.pub-cache
+          key: pub-beta-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-beta-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build CLI bundle
+        shell: bash
+        run: |
+          cd packages/cli
+          dart build cli
+
+      - name: Smoke test CLI bundle
+        shell: bash
+        run: |
+          cd packages/cli
+          dart run tool/smoke_cli.dart
