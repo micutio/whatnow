@@ -1,4 +1,4 @@
-name: todo_app
+name: whatnow_app
 description: Flutter Android frontend for todo task management.
 publish_to: none
 
@@ -13,7 +13,7 @@ dependencies:
   cupertino_icons: ^2.0.0
   flutter:
     sdk: flutter
-  todo_core:
+  whatnow_core:
 
 dev_dependencies:
   flutter_lints: ^6.0.0

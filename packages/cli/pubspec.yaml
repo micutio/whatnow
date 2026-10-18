@@ -1,10 +1,10 @@
-name: todo_cli
+name: whatnow_cli
 description: Command-line interface frontend for todo task management.
 version: 0.1.0
 publish_to: none
 
 executables:
-  todo: todo
+  whatnow: whatnow
 
 environment:
   sdk: ^3.13.4
@@ -14,7 +14,7 @@ resolution: workspace
 dependencies:
   args: ^2.5.0
   path: ^1.9.0
-  todo_core:
+  whatnow_core:
 
 dev_dependencies:
   coverage: ^1.15.1

@@ -1,5 +1,5 @@
-name: todo_core
-description: Core domain logic and task management models for the todo monorepo.
+name: whatnow_core
+description: Core domain logic and task management models for the whatnow monorepo.
 version: 0.1.0
 publish_to: none
 

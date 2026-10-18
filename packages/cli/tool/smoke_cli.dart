@@ -19,8 +19,8 @@ int _smoke() {
     stderr.writeln('--help failed with exit code ${help.exitCode}');
     return help.exitCode;
   }
-  if (!help.stdout.toString().contains('Todo CLI')) {
-    stderr.writeln('Expected --help output to contain "Todo CLI"');
+  if (!help.stdout.toString().contains('whatnow CLI')) {
+    stderr.writeln('Expected --help output to contain "whatnow CLI"');
     return 1;
   }
 
@@ -32,8 +32,8 @@ int _smoke() {
     stderr.writeln('--version failed with exit code ${version.exitCode}');
     return version.exitCode;
   }
-  if (!version.stdout.toString().contains('todo version')) {
-    stderr.writeln('Expected --version output to contain "todo version"');
+  if (!version.stdout.toString().contains('whatnow version')) {
+    stderr.writeln('Expected --version output to contain "whatnow version"');
     return 1;
   }
 
@@ -45,8 +45,8 @@ int _smoke() {
     stderr.writeln('Default run failed with exit code ${run.exitCode}');
     return run.exitCode;
   }
-  if (!run.stdout.toString().contains('=== Todo CLI')) {
-    stderr.writeln('Expected output to contain "=== Todo CLI"');
+  if (!run.stdout.toString().contains('=== whatnow CLI')) {
+    stderr.writeln('Expected output to contain "=== whatnow CLI"');
     return 1;
   }
 
@@ -66,7 +66,7 @@ String _findBinary() {
         file,
       ) {
         final name = p.basename(file.path);
-        return name == 'todo' || name == 'todo.exe';
+        return name == 'whatnow' || name == 'whatnow.exe';
       }).toList();
 
       if (matches.isNotEmpty) {
@@ -76,7 +76,7 @@ String _findBinary() {
   }
 
   stderr.writeln(
-    'No todo binary found under build/cli or packages/cli/build/cli. Run dart build cli first.',
+    'No whatnow binary found under build/cli or packages/cli/build/cli. Run dart build cli first.',
   );
   exit(1);
 }
