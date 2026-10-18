@@ -30,7 +30,9 @@ int runCli(List<String> args, {StringSink? out, StringSink? err}) {
 
     if (results.flag('help')) {
       stdoutSink
-        ..writeln('whatnow CLI - Task management driven by Eisenhower priorities')
+        ..writeln(
+          'whatnow CLI - Task management driven by Eisenhower priorities',
+        )
         ..writeln()
         ..writeln('Usage: whatnow [options]')
         ..writeln()
