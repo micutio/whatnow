@@ -31,68 +31,35 @@ class TodoHomePage extends StatefulWidget {
 }
 
 class _TodoHomePageState extends State<TodoHomePage> {
-  late TodoList _todoList;
+  late TaskRepository _taskRepo;
+  late TopicRepository _topicRepo;
 
   @override
   void initState() {
     super.initState();
-    _todoList = TodoList(
-      id: 'stream-1',
-      name: 'Main Stream',
-      items: [
-        TodoItem(
-          id: '1',
-          title: 'Review PR & verify CI',
-          isUrgent: true,
-          isImportant: true,
-        ),
-        TodoItem(id: '2', title: 'Design DDD architecture', isImportant: true),
-        TodoItem(
-          id: '3',
-          title: 'Reply to routine notifications',
-          isUrgent: true,
-        ),
-        TodoItem(id: '4', title: 'Archive old notes'),
-      ],
-    );
+    _taskRepo = CoreTaskRepository();
+    _topicRepo = CoreTopicRepository();
   }
 
-  void _toggleItem(String id) {
+  void _toggleTask(String id) {
     setState(() {
-      _todoList = _todoList.toggleItem(id);
+      _taskRepo = _taskRepo.toggleTask(id);
     });
   }
 
   void _addItem() {
     final newId = DateTime.now().millisecondsSinceEpoch.toString();
     setState(() {
-      _todoList = _todoList.addItem(
-        TodoItem(
-          id: newId,
-          title: 'New Quick Task',
-          isUrgent: true,
-          isImportant: true,
-        ),
+      _taskRepo = _taskRepo.addTask(
+        Task(id: newId, title: 'New Quick Task', importance: 0),
       );
     });
   }
 
-  Color _quadrantColor(EisenhowerQuadrant quadrant) {
-    switch (quadrant) {
-      case EisenhowerQuadrant.urgentAndImportant:
-        return Colors.red.shade700;
-      case EisenhowerQuadrant.notUrgentAndImportant:
-        return Colors.blue.shade700;
-      case EisenhowerQuadrant.urgentAndNotImportant:
-        return Colors.orange.shade800;
-      case EisenhowerQuadrant.notUrgentAndNotImportant:
-        return Colors.grey.shade600;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final prioritized = _todoList.prioritizedItems();
+    final corePrio = CorePriority();
+    final prioritized = _taskRepo.prioritizedItems(corePrio);
 
     return Scaffold(
       appBar: AppBar(
@@ -103,25 +70,34 @@ class _TodoHomePageState extends State<TodoHomePage> {
         itemCount: prioritized.length,
         itemBuilder: (context, index) {
           final item = prioritized[index];
-          final color = _quadrantColor(item.quadrant);
+          // TODO: Handle default tpoics in the core library!
+          final defaultTopic = Topic(id: "def", name: "default");
+          final topic = item.topicId != null
+              ? _topicRepo.getTopic(item.topicId!)
+              : defaultTopic;
+          final topicColor = topic?.color;
+          final color = Color.fromARGB(
+            topicColor!.a,
+            topicColor.r,
+            topicColor.g,
+            topicColor.b,
+          );
 
           return ListTile(
             leading: Checkbox(
-              value: item.isCompleted,
-              onChanged: (_) => _toggleItem(item.id),
+              value: item.isClosed,
+              onChanged: (_) => _toggleTask(item.id),
             ),
             title: Text(
               item.title,
               style: TextStyle(
-                decoration: item.isCompleted
-                    ? TextDecoration.lineThrough
-                    : null,
+                decoration: item.isClosed ? TextDecoration.lineThrough : null,
               ),
             ),
-            subtitle: Text(item.quadrant.description),
+            subtitle: Text(item.description!),
             trailing: Chip(
               label: Text(
-                item.quadrant.label,
+                item.description!,
                 style: const TextStyle(color: Colors.white, fontSize: 11),
               ),
               backgroundColor: color,
