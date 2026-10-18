@@ -19,8 +19,8 @@ int _smoke() {
     stderr.writeln('--help failed with exit code ${help.exitCode}');
     return help.exitCode;
   }
-  if (!help.stdout.toString().contains('Todo CLI')) {
-    stderr.writeln('Expected --help output to contain "Todo CLI"');
+  if (!help.stdout.toString().contains('whatnow CLI')) {
+    stderr.writeln('Expected --help output to contain "whatnow CLI"');
     return 1;
   }
 
@@ -45,8 +45,8 @@ int _smoke() {
     stderr.writeln('Default run failed with exit code ${run.exitCode}');
     return run.exitCode;
   }
-  if (!run.stdout.toString().contains('=== Todo CLI')) {
-    stderr.writeln('Expected output to contain "=== Todo CLI"');
+  if (!run.stdout.toString().contains('=== whatnow CLI')) {
+    stderr.writeln('Expected output to contain "=== whatnow CLI"');
     return 1;
   }
 
