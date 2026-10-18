@@ -1,8 +1,8 @@
 import 'package:test/test.dart';
-import 'package:todo_cli/todo_cli.dart';
+import 'package:whatnow_cli/whatnow_cli.dart';
 
 void main() {
-  group('Todo CLI', () {
+  group('whatnow CLI', () {
     test('buildParser creates parser with flags', () {
       final parser = buildParser();
       expect(parser.options.containsKey('help'), isTrue);
@@ -33,7 +33,7 @@ void main() {
       final out = StringBuffer();
       final code = runCli(['--version'], out: out);
       expect(code, equals(0));
-      expect(out.toString(), contains('todo version'));
+      expect(out.toString(), contains('whatnow version'));
 
       final err = StringBuffer();
       final errCode = runCli(['--invalid-flag'], err: err);

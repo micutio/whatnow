@@ -20,7 +20,7 @@ Future<void> main(List<String> args) async {
 
 void _printHelp() {
   stdout
-    ..writeln('Todo Monorepo Task Runner')
+    ..writeln('whatnow Monorepo Task Runner')
     ..writeln()
     ..writeln('Usage: dart run tool/dev.dart <command> [options]')
     ..writeln('   or: dart tool/dev.dart <command> [options]')

@@ -6,7 +6,7 @@ class Topic {
     required this.id,
     required this.name,
     this.description,
-    this.color = TopicColor.White,
+    this.color = TopicColor.white,
   });
 
   final String id;

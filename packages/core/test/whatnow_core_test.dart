@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:todo_core/todo_core.dart';
+import 'package:whatnow_core/whatnow_core.dart';
 
 void main() {
   // TODO: Add tests for TopicRepository.

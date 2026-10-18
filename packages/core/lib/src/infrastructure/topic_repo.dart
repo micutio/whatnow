@@ -1,5 +1,5 @@
-import 'package:todo_core/src/domain/entities/topic.dart';
-import 'package:todo_core/src/domain/repositories/topic_repository.dart';
+import 'package:whatnow_core/src/domain/entities/topic.dart';
+import 'package:whatnow_core/src/domain/repositories/topic_repository.dart';
 
 class CoreTopicRepository implements TopicRepository {
   CoreTopicRepository({Map<String, Topic>? topics})

@@ -1,4 +1,4 @@
-name: todo
+name: whatnow
 description: Monorepo workspace for todo task management across core library, CLI, and Flutter Android app.
 version: 0.1.0
 publish_to: none

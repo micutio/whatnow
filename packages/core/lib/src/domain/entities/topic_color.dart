@@ -33,5 +33,5 @@ class TopicColor {
   @override
   int get hashCode => Object.hash(r, g, b, a);
 
-  static const TopicColor White = TopicColor.rgba(255, 255, 255);
+  static const TopicColor white = TopicColor.rgba(255, 255, 255);
 }

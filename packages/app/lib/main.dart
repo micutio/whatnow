@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:todo_core/todo_core.dart';
+import 'package:whatnow_core/whatnow_core.dart';
 
 void main() {
-  runApp(const TodoApp());
+  runApp(const WhatnowApp());
 }
 
-class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+class WhatnowApp extends StatelessWidget {
+  const WhatnowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo App',
+      title: 'Whatnow App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TodoHomePage(title: 'Eisenhower Todo'),
+      home: const WhatnowHomePage(title: 'Eisenhower Todo'),
     );
   }
 }
 
-class TodoHomePage extends StatefulWidget {
-  const TodoHomePage({required this.title, super.key});
+class WhatnowHomePage extends StatefulWidget {
+  const WhatnowHomePage({required this.title, super.key});
 
   final String title;
 
   @override
-  State<TodoHomePage> createState() => _TodoHomePageState();
+  State<WhatnowHomePage> createState() => _WhatnowHomePageState();
 }
 
-class _TodoHomePageState extends State<TodoHomePage> {
+class _WhatnowHomePageState extends State<WhatnowHomePage> {
   late TaskRepository _taskRepo;
   late TopicRepository _topicRepo;
 
