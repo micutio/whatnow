@@ -32,13 +32,11 @@ class WhatnowHomePage extends StatefulWidget {
 
 class _WhatnowHomePageState extends State<WhatnowHomePage> {
   late TaskRepository _taskRepo;
-  late TopicRepository _topicRepo;
 
   @override
   void initState() {
     super.initState();
     _taskRepo = CoreTaskRepository();
-    _topicRepo = CoreTopicRepository();
   }
 
   void _toggleTask(String id) {
@@ -72,12 +70,9 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
           final item = prioritized[index];
           // TODO: Handle default tpoics in the core library!
           final defaultTopic = Topic(id: "def", name: "default");
-          final topic = item.topicId != null
-              ? _topicRepo.getTopic(item.topicId!)
-              : defaultTopic;
-          final topicColor = topic?.color;
+          final topicColor = defaultTopic.color;
           final color = Color.fromARGB(
-            topicColor!.a,
+            topicColor.a,
             topicColor.r,
             topicColor.g,
             topicColor.b,
