@@ -130,7 +130,7 @@ When implementing a new feature or changing behavior:
 
 1. **Specify the Requirement**: Add or update the requirement in the relevant package's `REQUIREMENTS.md` with a clear identifier before writing any application or test code.
 2. **Red (Write a Failing Test)**: Write an automated test that verifies the requirement and reference the requirement ID in the test description or comments (e.g., `test('REQ-TA-3: Task title must be between 1 and 255 characters', ...)`). Run the test suite to confirm the new test fails for the expected reason.
-3. **Green (Make It Pass)**: Write the minimum production code necessary to make the failing test pass without breaking existing tests.
+3. **Green (Make It Pass)**: Write the minimum production code necessary to make the failing test pass.
 4. **Refactor**: Clean up duplication, improve naming, and refine the design while keeping all tests green and adhering to static analysis rules.
 
 ### Defect / Bugfix Workflow
