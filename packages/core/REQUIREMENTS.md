@@ -57,3 +57,8 @@ This document establishes the functional requirements for the core `Task` data m
 
 * Should the system distinguish between `done` and `cancelled` (both are just `closed` right now)?
 * Terminology: (Important, Urgency) or (Impact, Effort)?
+
+## Notes
+
+Enforce constraints at the lowest possible level.
+
