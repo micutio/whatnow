@@ -10,7 +10,7 @@ This document establishes the functional requirements for the core `Task` data m
 
 * REQ-TA-1: The user shall not need any account or authentication to be able to use the system.
 * REQ-TA-2: The system shall allow the user to create text-based tasks.
-* REQ-TA-3: A task _must_ contain: a title (1-255 characters).
+* REQ-TA-3: A task _must_ contain: a title (1-100 characters).
 * REQ-TA-4: A task _can_ contain: a topic referenced via tag, a description (character limit?).
 * REQ-TA-5: When a task is created with unknown topic tag, the user may be asked whether to create a new topic or change to an existing one.
 

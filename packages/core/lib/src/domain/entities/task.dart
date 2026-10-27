@@ -35,6 +35,8 @@ class Task {
     required this.isClosed,
   }) : updatedAt = DateTime.now();
 
+  static const int titleLength = 100;
+
   final String id;
   final String topicId;
   final String title;
@@ -48,6 +50,18 @@ class Task {
   /// Scored between 0 and 100.
   final int importance;
   final bool isClosed;
+
+  ValidatedTask validate() {
+    if (title.length > titleLength) {
+      throw ArgumentError('Title cannot be longer than 100 characters');
+    }
+
+    if (importance < 0 || importance > 100) {
+      throw ArgumentError('Importance must be within [1, 100]');
+    }
+
+    return ValidatedTask._fromTask(this);
+  }
 
   Task copyWith({
     String? id,
@@ -96,4 +110,10 @@ class Task {
     importance,
     isClosed,
   );
+}
+
+class ValidatedTask {
+  ValidatedTask._fromTask(this.task);
+
+  final Task task;
 }

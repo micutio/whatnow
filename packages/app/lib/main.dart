@@ -49,7 +49,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
     final newId = DateTime.now().millisecondsSinceEpoch.toString();
     setState(() {
       _taskRepo = _taskRepo.addTask(
-        Task(id: newId, title: 'New Quick Task', importance: 0),
+        Task(id: newId, title: 'New Quick Task', importance: 0).validate(),
       );
     });
   }
@@ -80,19 +80,21 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
 
           return ListTile(
             leading: Checkbox(
-              value: item.isClosed,
-              onChanged: (_) => _toggleTask(item.id),
+              value: item.task.isClosed,
+              onChanged: (_) => _toggleTask(item.task.id),
             ),
             title: Text(
-              item.title,
+              item.task.title,
               style: TextStyle(
-                decoration: item.isClosed ? TextDecoration.lineThrough : null,
+                decoration: item.task.isClosed
+                    ? TextDecoration.lineThrough
+                    : null,
               ),
             ),
-            subtitle: Text(item.description!),
+            subtitle: Text(item.task.description!),
             trailing: Chip(
               label: Text(
-                item.description!,
+                item.task.description!,
                 style: const TextStyle(color: Colors.white, fontSize: 11),
               ),
               backgroundColor: color,

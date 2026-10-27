@@ -3,7 +3,7 @@ import '../interfaces/priority.dart';
 
 /// Holds all tasks of the application.
 abstract interface class TaskRepository {
-  TaskRepository addTask(Task t);
+  TaskRepository addTask(ValidatedTask t);
   TaskRepository removeTask(String taskId);
 
   /// Toggles a given task between open and closed.
@@ -11,17 +11,20 @@ abstract interface class TaskRepository {
 
   /// Returns open tasks in a prioritised order,
   /// determined by the given priority calculation.
-  List<Task> prioritizedItems(Priority priority);
+  List<ValidatedTask> prioritizedItems(Priority priority);
 
   /// Returns open tasks of a topic in a prioritised order,
   /// determined by the given priority calculation.
-  List<Task> prioritizedItemsByTopic(String topicTag, Priority priority);
+  List<ValidatedTask> prioritizedItemsByTopic(
+    String topicTag,
+    Priority priority,
+  );
 
   /// Returns all closed tasks.
-  List<Task> closedTasks();
+  List<ValidatedTask> closedTasks();
 
   /// Returns closed tasks for a topic.
-  List<Task> closedTasksForTopic(String topicTag);
+  List<ValidatedTask> closedTasksForTopic(String topicTag);
 
   /// Returns the count of open and closed tasks in this repository.
   int allTaskCount();

@@ -4,20 +4,20 @@ import '../domain/repositories/task_repository.dart';
 
 /// Topics are groupings of tasks, such as projects and ideas.
 class CoreTaskRepository implements TaskRepository {
-  CoreTaskRepository({List<Task>? items})
-    : _items = List<Task>.unmodifiable(items ?? const []);
+  CoreTaskRepository({List<ValidatedTask>? items})
+    : _items = List<ValidatedTask>.unmodifiable(items ?? const []);
 
-  final List<Task> _items;
+  final List<ValidatedTask> _items;
 
   @override
-  TaskRepository addTask(Task task) {
+  TaskRepository addTask(ValidatedTask task) {
     return CoreTaskRepository(items: [..._items, task]);
   }
 
   @override
   TaskRepository removeTask(String taskId) {
     return CoreTaskRepository(
-      items: _items.where((item) => item.id != taskId).toList(),
+      items: _items.where((item) => item.task.id != taskId).toList(),
     );
   }
 
@@ -25,8 +25,8 @@ class CoreTaskRepository implements TaskRepository {
   TaskRepository toggleTask(String taskId) {
     return CoreTaskRepository(
       items: _items.map((item) {
-        if (item.id == taskId) {
-          return item.copyWith(isClosed: !item.isClosed);
+        if (item.task.id == taskId) {
+          return item.task.copyWith(isClosed: !item.task.isClosed).validate();
         }
         return item;
       }).toList(),
@@ -34,14 +34,19 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  List<Task> prioritizedItems(Priority priority) =>
+  List<ValidatedTask> prioritizedItems(Priority priority) =>
       _prioritize(_items, priority);
 
   @override
-  List<Task> prioritizedItemsByTopic(String topicTag, Priority priority) =>
-      _prioritize(_items.where((t) => t.topicId == topicTag), priority);
+  List<ValidatedTask> prioritizedItemsByTopic(
+    String topicTag,
+    Priority priority,
+  ) => _prioritize(_items.where((t) => t.task.topicId == topicTag), priority);
 
-  List<Task> _prioritize(Iterable<Task> tasks, Priority priority) {
+  List<ValidatedTask> _prioritize(
+    Iterable<ValidatedTask> tasks,
+    Priority priority,
+  ) {
     final items = tasks.toList()
       ..sort(
         (a, b) => priority.getPriority(a).compareTo(priority.getPriority(b)),
@@ -50,15 +55,15 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  List<Task> closedTasks() {
-    final items = _items.where((t) => t.isClosed).toList();
+  List<ValidatedTask> closedTasks() {
+    final items = _items.where((v) => v.task.isClosed).toList();
     return List.unmodifiable(items);
   }
 
   @override
-  List<Task> closedTasksForTopic(String topicTag) {
+  List<ValidatedTask> closedTasksForTopic(String topicTag) {
     final items = _items
-        .where((t) => t.topicId == topicTag && t.isClosed)
+        .where((v) => v.task.topicId == topicTag && v.task.isClosed)
         .toList();
     return List.unmodifiable(items);
   }
@@ -69,8 +74,8 @@ class CoreTaskRepository implements TaskRepository {
   @override
   int openTaskCount() {
     var count = 0;
-    for (final task in _items) {
-      if (!task.isClosed) count++;
+    for (final validated in _items) {
+      if (!validated.task.isClosed) count++;
     }
     return count;
   }
@@ -78,8 +83,8 @@ class CoreTaskRepository implements TaskRepository {
   @override
   int closedTaskCount() {
     var count = 0;
-    for (final task in _items) {
-      if (task.isClosed) count++;
+    for (final validated in _items) {
+      if (validated.task.isClosed) count++;
     }
     return count;
   }
