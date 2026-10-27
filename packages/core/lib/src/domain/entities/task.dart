@@ -52,12 +52,12 @@ class Task {
   final bool isClosed;
 
   ValidatedTask validate() {
-    if (title.length > titleLength) {
-      throw ArgumentError('Title cannot be longer than 100 characters');
+    if (title.trim().isEmpty || title.length > titleLength) {
+      throw ArgumentError('Title must be between 1 and 100 characters');
     }
 
     if (importance < 0 || importance > 100) {
-      throw ArgumentError('Importance must be within [1, 100]');
+      throw ArgumentError('Importance must be within [0, 100]');
     }
 
     return ValidatedTask._fromTask(this);
@@ -70,7 +70,7 @@ class Task {
     String? description,
     DateTime? createdAt,
     DateTime? dueAt,
-    int? importance = 0,
+    int? importance,
     bool? isClosed,
   }) {
     return Task._clone(
