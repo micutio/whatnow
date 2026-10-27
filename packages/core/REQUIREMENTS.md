@@ -10,7 +10,7 @@ This document establishes the functional requirements for the core `Task` data m
 
 * REQ-TA-1: The user shall not need any account or authentication to be able to use the system.
 * REQ-TA-2: The system shall allow the user to create text-based tasks.
-* REQ-TA-3: A task _must_ contain: a title (1-100 characters).
+* REQ-TA-3: A task _must_ contain: a title (1-100 characters) and an importance score (0-100).
 * REQ-TA-4: A task _can_ contain: a topic referenced via tag, a description (character limit?).
 * REQ-TA-5: When a task is created with unknown topic tag, the user may be asked whether to create a new topic or change to an existing one.
 
@@ -35,13 +35,13 @@ This document establishes the functional requirements for the core `Task` data m
   * REQ-PR-2.2: deadlines create growing urgency                 => urgency increases as due date approaches
   * REQ-PR-2.3: repeated re-scheduling may indicate unimportance => importance decreases with re-scheduling
 * REQ-PR-3: Task importance should result from the user-defined importance score and REQ-PR-2.1 derived dynamic importance
-* REQ-PR-3: Task urgency should result from the REQ-PR-2.2 derived dynamic urgency
-* REQ-PR-4: The priority calculation for a task is independent from other tasks. They can be compared but do not influence each other.
+* REQ-PR-4: Task urgency should result from the REQ-PR-2.2 derived dynamic urgency
+* REQ-PR-5: The priority calculation for a task is independent from other tasks. They can be compared but do not influence each other.
 
 ### 2.5 Recommendation
 
-* REQ-PR-1: The recommendation for a task is derived from the Eisenhower Matrix and the task importance and urgency.
-* REQ-PR-2: As task importance and urgency changes over time, the recommendation is expected change to as well.
+* REQ-RC-1: The recommendation for a task is derived from the Eisenhower Matrix and the task importance and urgency.
+* REQ-RC-2: As task importance and urgency changes over time, the recommendation is expected to change as well.
 
 ## 3. Non-Functional Requirements
 
