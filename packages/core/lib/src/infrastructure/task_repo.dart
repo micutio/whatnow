@@ -35,13 +35,16 @@ class CoreTaskRepository implements TaskRepository {
 
   @override
   List<ValidatedTask> prioritizedItems(Priority priority) =>
-      _prioritize(_items, priority);
+      _prioritize(_items.where((t) => !t.task.isClosed), priority);
 
   @override
   List<ValidatedTask> prioritizedItemsByTopic(
     String topicTag,
     Priority priority,
-  ) => _prioritize(_items.where((t) => t.task.topicId == topicTag), priority);
+  ) => _prioritize(
+    _items.where((t) => !t.task.isClosed && t.task.topicId == topicTag),
+    priority,
+  );
 
   List<ValidatedTask> _prioritize(
     Iterable<ValidatedTask> tasks,
@@ -49,7 +52,7 @@ class CoreTaskRepository implements TaskRepository {
   ) {
     final items = tasks.toList()
       ..sort(
-        (a, b) => priority.getPriority(a).compareTo(priority.getPriority(b)),
+        (a, b) => priority.getPriority(b).compareTo(priority.getPriority(a)),
       );
     return List.unmodifiable(items);
   }
