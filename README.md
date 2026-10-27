@@ -39,7 +39,7 @@ dart run tool/dev.dart verify
 
 ### Prerequisites
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) (3.24+ recommended, includes Dart 3.5+ with native pub workspace support)
+- [Flutter SDK](https://docs.flutter.dev/get-started/install)
 - Git
 
 ### Getting Started
