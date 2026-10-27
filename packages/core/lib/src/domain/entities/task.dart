@@ -8,22 +8,41 @@ import 'topic.dart';
 /// - elapsed time between creation and due date
 class Task {
   /// Standard constructor allows to set everything,
-  /// except [createdAt] and [updatedAt].
+  /// except [createdAt] and [updatedAt] (which default to current UTC time
+  /// unless [now] is provided for deterministic testing).
   /// If [topicId] is not given, it will be assigned to the generic topic.
   Task({
-    required this.id,
+    required String id,
     String? topicId,
+    required String title,
+    String? description,
+    DateTime? dueAt,
+    required int importance,
+    DateTime? now,
+  }) : this._init(
+         id: id,
+         topicId: topicId ?? Topic.unnamed.id,
+         title: title,
+         description: description,
+         dueAt: dueAt,
+         importance: importance,
+         timestamp: (now ?? DateTime.now()).toUtc(),
+       );
+
+  Task._init({
+    required this.id,
+    required this.topicId,
     required this.title,
-    this.description,
-    this.dueAt,
+    required this.description,
+    required this.dueAt,
     required this.importance,
-  }) : topicId = topicId ?? Topic.unnamed.id,
-       createdAt = DateTime.now(),
-       updatedAt = DateTime.now(),
+    required DateTime timestamp,
+  }) : createdAt = timestamp,
+       updatedAt = timestamp,
        isClosed = false;
 
   /// Private cloning constructor allows to set everything,
-  /// except [updatedAt].
+  /// except [updatedAt] (which defaults to current UTC time unless [now] is provided).
   Task._clone({
     required this.id,
     required this.topicId,
@@ -33,7 +52,8 @@ class Task {
     required this.dueAt,
     required this.importance,
     required this.isClosed,
-  }) : updatedAt = DateTime.now();
+    DateTime? now,
+  }) : updatedAt = (now ?? DateTime.now()).toUtc();
 
   static const int titleLength = 100;
 
@@ -72,6 +92,7 @@ class Task {
     DateTime? dueAt,
     int? importance,
     bool? isClosed,
+    DateTime? now,
   }) {
     return Task._clone(
       id: id ?? this.id,
@@ -82,9 +103,12 @@ class Task {
       dueAt: dueAt ?? this.dueAt,
       importance: importance ?? this.importance,
       isClosed: isClosed ?? this.isClosed,
+      now: now,
     );
   }
 
+  /// Value equality compares all task domain state (excluding [updatedAt]
+  /// metadata so copies with identical state remain equal).
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -112,8 +136,7 @@ class Task {
   );
 }
 
-class ValidatedTask {
-  ValidatedTask._fromTask(this.task);
-
-  final Task task;
-}
+/// Zero-cost wrapper proving that a [Task] has passed [Task.validate].
+/// Implements [Task] so all task fields and value equality are directly
+/// accessible without runtime wrapper allocation.
+extension type const ValidatedTask._fromTask(Task task) implements Task {}

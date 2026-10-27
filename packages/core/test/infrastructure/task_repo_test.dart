@@ -43,8 +43,8 @@ void main() {
           final toggled = filledRepo.toggleTask('t1');
           expect(toggled.openTaskCount(), equals(0));
           expect(toggled.closedTaskCount(), equals(1));
-          expect(toggled.closedTasks().first.task.isClosed, isTrue);
-          expect(toggled.closedTasks().first.task.importance, equals(75));
+          expect(toggled.closedTasks().first.isClosed, isTrue);
+          expect(toggled.closedTasks().first.importance, equals(75));
 
           final untoggled = toggled.toggleTask('t1');
           expect(untoggled.openTaskCount(), equals(1));
@@ -87,7 +87,7 @@ void main() {
 
           final openPrioritized = repo.prioritizedItems(priority);
           expect(
-            openPrioritized.map((v) => v.task.id).toList(),
+            openPrioritized.map((v) => v.id).toList(),
             equals(['t-high', 't-low']),
           );
         },
@@ -117,11 +117,11 @@ void main() {
             priority,
           );
           expect(
-            workPrioritized.map((v) => v.task.id).toList(),
+            workPrioritized.map((v) => v.id).toList(),
             equals(['t-high', 't-low']),
           );
           expect(
-            repo.closedTasksForTopic('work').map((v) => v.task.id).toList(),
+            repo.closedTasksForTopic('work').map((v) => v.id).toList(),
             equals(['t-closed-work']),
           );
         },

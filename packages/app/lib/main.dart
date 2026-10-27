@@ -76,17 +76,17 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
             topicColor.g,
             topicColor.b,
           );
-          final description = item.task.description;
+          final description = item.description;
 
           return ListTile(
             leading: Checkbox(
-              value: item.task.isClosed,
-              onChanged: (_) => _toggleTask(item.task.id),
+              value: item.isClosed,
+              onChanged: (_) => _toggleTask(item.id),
             ),
             title: Text(
-              item.task.title,
+              item.title,
               style: TextStyle(
-                decoration: item.task.isClosed
+                decoration: item.isClosed
                     ? TextDecoration.lineThrough
                     : null,
               ),
@@ -94,7 +94,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
             subtitle: description != null ? Text(description) : null,
             trailing: Chip(
               label: Text(
-                item.task.title,
+                item.topicId,
                 style: const TextStyle(color: Colors.black87, fontSize: 11),
               ),
               backgroundColor: color,

@@ -17,7 +17,7 @@ class CoreTaskRepository implements TaskRepository {
   @override
   TaskRepository removeTask(String taskId) {
     return CoreTaskRepository(
-      items: _items.where((item) => item.task.id != taskId).toList(),
+      items: _items.where((item) => item.id != taskId).toList(),
     );
   }
 
@@ -25,8 +25,8 @@ class CoreTaskRepository implements TaskRepository {
   TaskRepository toggleTask(String taskId) {
     return CoreTaskRepository(
       items: _items.map((item) {
-        if (item.task.id == taskId) {
-          return item.task.copyWith(isClosed: !item.task.isClosed).validate();
+        if (item.id == taskId) {
+          return item.copyWith(isClosed: !item.isClosed).validate();
         }
         return item;
       }).toList(),
@@ -35,14 +35,14 @@ class CoreTaskRepository implements TaskRepository {
 
   @override
   List<ValidatedTask> prioritizedItems(Priority priority) =>
-      _prioritize(_items.where((t) => !t.task.isClosed), priority);
+      _prioritize(_items.where((t) => !t.isClosed), priority);
 
   @override
   List<ValidatedTask> prioritizedItemsByTopic(
     String topicTag,
     Priority priority,
   ) => _prioritize(
-    _items.where((t) => !t.task.isClosed && t.task.topicId == topicTag),
+    _items.where((t) => !t.isClosed && t.topicId == topicTag),
     priority,
   );
 
@@ -59,14 +59,14 @@ class CoreTaskRepository implements TaskRepository {
 
   @override
   List<ValidatedTask> closedTasks() {
-    final items = _items.where((v) => v.task.isClosed).toList();
+    final items = _items.where((v) => v.isClosed).toList();
     return List.unmodifiable(items);
   }
 
   @override
   List<ValidatedTask> closedTasksForTopic(String topicTag) {
     final items = _items
-        .where((v) => v.task.topicId == topicTag && v.task.isClosed)
+        .where((v) => v.topicId == topicTag && v.isClosed)
         .toList();
     return List.unmodifiable(items);
   }
@@ -78,7 +78,7 @@ class CoreTaskRepository implements TaskRepository {
   int openTaskCount() {
     var count = 0;
     for (final validated in _items) {
-      if (!validated.task.isClosed) count++;
+      if (!validated.isClosed) count++;
     }
     return count;
   }
@@ -87,7 +87,7 @@ class CoreTaskRepository implements TaskRepository {
   int closedTaskCount() {
     var count = 0;
     for (final validated in _items) {
-      if (validated.task.isClosed) count++;
+      if (validated.isClosed) count++;
     }
     return count;
   }
