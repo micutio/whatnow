@@ -68,8 +68,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
         itemCount: prioritized.length,
         itemBuilder: (context, index) {
           final item = prioritized[index];
-          // TODO: Handle default tpoics in the core library!
-          final defaultTopic = Topic(id: "def", name: "default");
+          const defaultTopic = Topic.unnamed;
           final topicColor = defaultTopic.color;
           final color = Color.fromARGB(
             topicColor.a,
@@ -77,6 +76,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
             topicColor.g,
             topicColor.b,
           );
+          final description = item.task.description;
 
           return ListTile(
             leading: Checkbox(
@@ -91,11 +91,11 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
                     : null,
               ),
             ),
-            subtitle: Text(item.task.description!),
+            subtitle: description != null ? Text(description) : null,
             trailing: Chip(
               label: Text(
-                item.task.description!,
-                style: const TextStyle(color: Colors.white, fontSize: 11),
+                item.task.title,
+                style: const TextStyle(color: Colors.black87, fontSize: 11),
               ),
               backgroundColor: color,
             ),
