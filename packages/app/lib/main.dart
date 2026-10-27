@@ -86,9 +86,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
             title: Text(
               item.title,
               style: TextStyle(
-                decoration: item.isClosed
-                    ? TextDecoration.lineThrough
-                    : null,
+                decoration: item.isClosed ? TextDecoration.lineThrough : null,
               ),
             ),
             subtitle: description != null ? Text(description) : null,

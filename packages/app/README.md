@@ -1,6 +1,6 @@
 # whatnow_app
 
-The Flutter Android application frontend for the whatnow monorepo, providing a task management UI powered by `todo_core`.
+The Flutter Android application frontend for the whatnow monorepo, providing a task management UI powered by `whatnow_core`.
 
 ---
 

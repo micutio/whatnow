@@ -31,16 +31,13 @@ void main() {
     );
 
     group('REQ-TA-2 & REQ-DB-1: Task creation and copying', () {
-      test(
-        'Given a newly created task, '
-        'Then it is open and createdAt equals updatedAt in UTC',
-        () {
-          expect(validTask.isClosed, isFalse);
-          expect(validTask.createdAt.isUtc, isTrue);
-          expect(validTask.createdAt, equals(createdTime));
-          expect(validTask.updatedAt, equals(createdTime));
-        },
-      );
+      test('Given a newly created task, '
+          'Then it is open and createdAt equals updatedAt in UTC', () {
+        expect(validTask.isClosed, isFalse);
+        expect(validTask.createdAt.isUtc, isTrue);
+        expect(validTask.createdAt, equals(createdTime));
+        expect(validTask.updatedAt, equals(createdTime));
+      });
 
       test(
         'Given a task with no topicId, Then it defaults to the unnamed topic',
@@ -54,26 +51,23 @@ void main() {
         },
       );
 
-      test(
-        'Given a task with non-zero importance, '
-        'When copyWith is called without importance at a later time, '
-        'Then original fields are preserved and updatedAt is updated',
-        () {
-          final copy = validTask.copyWith(
-            title: 'Updated title',
-            now: updatedTime,
-          );
-          expect(copy.title, equals('Updated title'));
-          expect(copy.importance, equals(42));
-          expect(copy.id, equals(validTask.id));
-          expect(copy.topicId, equals(validTask.topicId));
-          expect(copy.description, equals(validTask.description));
-          expect(copy.createdAt, equals(createdTime));
-          expect(copy.updatedAt, equals(updatedTime));
-          expect(copy.dueAt, equals(validTask.dueAt));
-          expect(copy.isClosed, equals(validTask.isClosed));
-        },
-      );
+      test('Given a task with non-zero importance, '
+          'When copyWith is called without importance at a later time, '
+          'Then original fields are preserved and updatedAt is updated', () {
+        final copy = validTask.copyWith(
+          title: 'Updated title',
+          now: updatedTime,
+        );
+        expect(copy.title, equals('Updated title'));
+        expect(copy.importance, equals(42));
+        expect(copy.id, equals(validTask.id));
+        expect(copy.topicId, equals(validTask.topicId));
+        expect(copy.description, equals(validTask.description));
+        expect(copy.createdAt, equals(createdTime));
+        expect(copy.updatedAt, equals(updatedTime));
+        expect(copy.dueAt, equals(validTask.dueAt));
+        expect(copy.isClosed, equals(validTask.isClosed));
+      });
     });
 
     group('REQ-TA-3: Task validation (title 1-100 chars, importance 0-100)', () {
@@ -89,37 +83,28 @@ void main() {
         },
       );
 
-      test(
-        'Given a task with an empty or whitespace-only title, '
-        'When validate is called, Then it throws ArgumentError',
-        () {
-          final emptyTitleTask = validTask.copyWith(title: '');
-          final whitespaceTitleTask = validTask.copyWith(title: '   ');
+      test('Given a task with an empty or whitespace-only title, '
+          'When validate is called, Then it throws ArgumentError', () {
+        final emptyTitleTask = validTask.copyWith(title: '');
+        final whitespaceTitleTask = validTask.copyWith(title: '   ');
 
-          expect(emptyTitleTask.validate, throwsArgumentError);
-          expect(whitespaceTitleTask.validate, throwsArgumentError);
-        },
-      );
+        expect(emptyTitleTask.validate, throwsArgumentError);
+        expect(whitespaceTitleTask.validate, throwsArgumentError);
+      });
 
-      test(
-        'Given a task with an overlong title (>100 chars), '
-        'When validate is called, Then it throws ArgumentError',
-        () {
-          expect(invalidTask.validate, throwsArgumentError);
-        },
-      );
+      test('Given a task with an overlong title (>100 chars), '
+          'When validate is called, Then it throws ArgumentError', () {
+        expect(invalidTask.validate, throwsArgumentError);
+      });
 
-      test(
-        'Given a task with importance outside [0, 100], '
-        'When validate is called, Then it throws ArgumentError',
-        () {
-          final negativeImportance = validTask.copyWith(importance: -1);
-          final excessiveImportance = validTask.copyWith(importance: 101);
+      test('Given a task with importance outside [0, 100], '
+          'When validate is called, Then it throws ArgumentError', () {
+        final negativeImportance = validTask.copyWith(importance: -1);
+        final excessiveImportance = validTask.copyWith(importance: 101);
 
-          expect(negativeImportance.validate, throwsArgumentError);
-          expect(excessiveImportance.validate, throwsArgumentError);
-        },
-      );
+        expect(negativeImportance.validate, throwsArgumentError);
+        expect(excessiveImportance.validate, throwsArgumentError);
+      });
     });
   });
 }
