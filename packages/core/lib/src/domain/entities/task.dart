@@ -1,3 +1,5 @@
+import 'package:whatnow_core/whatnow_core.dart';
+
 /// Basic unit of work to do.
 /// The core functionality of this application is to properly prioritise it.
 /// Priority will be determined by a combination of
@@ -5,23 +7,43 @@
 /// - due date
 /// - elapsed time between creation and due date
 class Task {
+  /// Standard constructor allows to set everything,
+  /// except [createdAt] and [updatedAt].
+  /// If [topicId] is not given, it will be assigned to the generic topic.
   Task({
     required this.id,
-    this.topicId,
+    String? topicId,
     required this.title,
     this.description,
-    this.dueDate,
+    this.dueAt,
     required this.importance,
-    DateTime? creationDate,
-    this.isClosed = false,
-  }) : creationDate = creationDate ?? DateTime.now();
+  }) : topicId = topicId ?? Topic.unnamed.id,
+       createdAt = DateTime.now(),
+       updatedAt = DateTime.now(),
+       isClosed = false;
+
+  /// Private cloning constructor allows to set everything,
+  /// except [updatedAt].
+  Task._clone({
+    required this.id,
+    required this.topicId,
+    required this.title,
+    required this.description,
+    required this.createdAt,
+    required this.dueAt,
+    required this.importance,
+    required this.isClosed,
+  }) : updatedAt = DateTime.now();
 
   final String id;
-  final String? topicId;
+  final String topicId;
   final String title;
   final String? description;
-  final DateTime creationDate;
-  final DateTime? dueDate;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  /// Null indicates undefined deadline.
+  final DateTime? dueAt;
 
   /// Scored between 0 and 100.
   final int importance;
@@ -32,18 +54,18 @@ class Task {
     String? topicId,
     String? title,
     String? description,
-    DateTime? creationDate,
-    DateTime? dueDate,
+    DateTime? createdAt,
+    DateTime? dueAt,
     int? importance = 0,
     bool? isClosed,
   }) {
-    return Task(
+    return Task._clone(
       id: id ?? this.id,
       topicId: topicId ?? this.topicId,
       title: title ?? this.title,
       description: description ?? this.description,
-      creationDate: creationDate ?? this.creationDate,
-      dueDate: dueDate ?? this.dueDate,
+      createdAt: createdAt ?? this.createdAt,
+      dueAt: dueAt ?? this.dueAt,
       importance: importance ?? this.importance,
       isClosed: isClosed ?? this.isClosed,
     );
@@ -58,8 +80,8 @@ class Task {
           topicId == other.topicId &&
           title == other.title &&
           description == other.description &&
-          creationDate == other.creationDate &&
-          dueDate == other.dueDate &&
+          createdAt == other.createdAt &&
+          dueAt == other.dueAt &&
           importance == other.importance &&
           isClosed == other.isClosed;
 
@@ -69,8 +91,8 @@ class Task {
     topicId,
     title,
     description,
-    creationDate,
-    dueDate,
+    createdAt,
+    dueAt,
     importance,
     isClosed,
   );
