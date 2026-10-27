@@ -1,4 +1,4 @@
-import 'package:whatnow_core/whatnow_core.dart';
+import 'topic.dart';
 
 /// Basic unit of work to do.
 /// The core functionality of this application is to properly prioritise it.

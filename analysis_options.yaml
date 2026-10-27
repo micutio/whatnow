@@ -48,6 +48,7 @@ linter:
     - type_annotate_public_apis
     - omit_local_variable_types
     - directives_ordering
+    - prefer_relative_imports
     - camel_case_types
     - avoid_redundant_argument_values
     - avoid_escaping_inner_quotes

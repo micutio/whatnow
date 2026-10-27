@@ -42,6 +42,7 @@ linter:
 
     # --- Code Hygiene & Structure ---
     - directives_ordering
+    - prefer_relative_imports
     - cascade_invocations
     - avoid_redundant_argument_values
     - avoid_escaping_inner_quotes
