@@ -39,9 +39,9 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
     _taskRepo = CoreTaskRepository();
   }
 
-  void _toggleTask(String id) {
+  void _closeTask(String id) {
     setState(() {
-      _taskRepo = _taskRepo.toggleTask(id);
+      _taskRepo = _taskRepo.closeTask(id);
     });
   }
 
@@ -81,7 +81,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
           return ListTile(
             leading: Checkbox(
               value: item.isClosed,
-              onChanged: (_) => _toggleTask(item.id),
+              onChanged: (_) => _closeTask(item.id),
             ),
             title: Text(
               item.title,

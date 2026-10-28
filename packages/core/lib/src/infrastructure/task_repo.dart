@@ -22,11 +22,23 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  TaskRepository toggleTask(String taskId) {
+  TaskRepository closeTask(String taskId) {
     return CoreTaskRepository(
       items: _items.map((item) {
         if (item.id == taskId) {
-          return item.copyWith(isClosed: !item.isClosed).validate();
+          return item.copyWith(isClosed: true).validate();
+        }
+        return item;
+      }).toList(),
+    );
+  }
+
+  @override
+  TaskRepository reopenTask(String taskId) {
+    return CoreTaskRepository(
+      items: _items.map((item) {
+        if (item.id == taskId) {
+          return item.copyWith(isClosed: false).validate();
         }
         return item;
       }).toList(),

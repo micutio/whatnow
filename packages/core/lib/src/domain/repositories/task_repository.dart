@@ -6,8 +6,11 @@ abstract interface class TaskRepository {
   TaskRepository addTask(ValidatedTask t);
   TaskRepository removeTask(String taskId);
 
-  /// Toggles a given task between open and closed.
-  TaskRepository toggleTask(String taskId);
+  /// Closes a given open task.
+  TaskRepository closeTask(String taskId);
+
+  /// Re-opens a given task.
+  TaskRepository reopenTask(String taskId);
 
   /// Returns open tasks in a prioritised order,
   /// determined by the given priority calculation.

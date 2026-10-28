@@ -31,15 +31,15 @@ void main() {
         expect(filledRepo.openTaskCount(), equals(1));
         expect(filledRepo.closedTaskCount(), equals(0));
 
-        final toggled = filledRepo.toggleTask('t1');
-        expect(toggled.openTaskCount(), equals(0));
-        expect(toggled.closedTaskCount(), equals(1));
-        expect(toggled.closedTasks().first.isClosed, isTrue);
-        expect(toggled.closedTasks().first.importance, equals(75));
+        final closed = filledRepo.closeTask('t1');
+        expect(closed.openTaskCount(), equals(0));
+        expect(closed.closedTaskCount(), equals(1));
+        expect(closed.closedTasks().first.isClosed, isTrue);
+        expect(closed.closedTasks().first.importance, equals(75));
 
-        final untoggled = toggled.toggleTask('t1');
-        expect(untoggled.openTaskCount(), equals(1));
-        expect(untoggled.closedTaskCount(), equals(0));
+        final reopened = closed.reopenTask('t1');
+        expect(reopened.openTaskCount(), equals(1));
+        expect(reopened.closedTaskCount(), equals(0));
       });
     });
 
@@ -71,7 +71,7 @@ void main() {
             .addTask(lowTask)
             .addTask(highTask)
             .addTask(homeTask)
-            .toggleTask('t-home'); // close 't-home'
+            .closeTask('t-home');
 
         final openPrioritized = repo.prioritizedItems(priority);
         expect(
@@ -97,7 +97,7 @@ void main() {
               .addTask(highTask)
               .addTask(homeTask)
               .addTask(extraWorkTask)
-              .toggleTask('t-closed-work');
+              .closeTask('t-closed-work');
 
           final workPrioritized = repo.prioritizedItemsByTopic(
             'work',
