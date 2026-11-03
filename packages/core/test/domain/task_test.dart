@@ -11,7 +11,6 @@ void main() {
     final updatedTime = DateTime.utc(2026, 10, 27, 11);
 
     final validTask = Task(
-      id: 't1',
       topicId: Topic.defaultId,
       title: 't1 title',
       description: '-',
@@ -21,7 +20,6 @@ void main() {
     );
 
     final invalidTask = Task(
-      id: 't2',
       topicId: Topic.defaultId,
       title: overlongTitle,
       description: '-',
@@ -42,11 +40,7 @@ void main() {
       test(
         'Given a task with no topicId, Then it defaults to the unnamed topic',
         () {
-          final taskWithoutTopic = Task(
-            id: 't-default-topic',
-            title: 'No topic',
-            importance: 10,
-          );
+          final taskWithoutTopic = Task(title: 'No topic', importance: 10);
           expect(taskWithoutTopic.topicId, equals(Topic.unnamed.id));
         },
       );
@@ -78,7 +72,7 @@ void main() {
         () {
           final validated = validTask.validate();
           expect(validated, equals(validTask));
-          expect(validated.id, equals('t1'));
+          expect(validated.id, equals(validTask.id));
           expect(validated.importance, equals(42));
         },
       );

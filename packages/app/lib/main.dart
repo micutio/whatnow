@@ -46,10 +46,9 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
   }
 
   void _addItem() {
-    final newId = DateTime.now().millisecondsSinceEpoch.toString();
     setState(() {
       _taskRepo = _taskRepo.addTask(
-        Task(id: newId, title: 'New Quick Task', importance: 0).validate(),
+        Task(title: 'New Quick Task', importance: 0).validate(),
       );
     });
   }
@@ -68,7 +67,7 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
         itemCount: prioritized.length,
         itemBuilder: (context, index) {
           final item = prioritized[index];
-          const defaultTopic = Topic.unnamed;
+          final defaultTopic = Topic.unnamed;
           final topicColor = defaultTopic.color;
           final color = Color.fromARGB(
             topicColor.a,

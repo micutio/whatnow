@@ -1,4 +1,8 @@
+import 'package:uuid/uuid.dart';
+
 import 'topic.dart';
+
+const _uuid = Uuid();
 
 /// Basic unit of work to do.
 /// The core functionality of this application is to properly prioritise it.
@@ -12,7 +16,6 @@ class Task {
   /// unless [now] is provided for deterministic testing).
   /// If [topicId] is not given, it will be assigned to the generic topic.
   Task({
-    required String id,
     String? topicId,
     required String title,
     String? description,
@@ -20,7 +23,7 @@ class Task {
     required int importance,
     DateTime? now,
   }) : this._init(
-         id: id,
+         id: _uuid.v5(Namespace.dns.value, title),
          topicId: topicId ?? Topic.unnamed.id,
          title: title,
          description: description,
@@ -41,8 +44,9 @@ class Task {
        updatedAt = timestamp,
        isClosed = false;
 
-  /// Private cloning constructor allows to set everything,
-  /// except [updatedAt] (which defaults to current UTC time unless [now] is provided).
+  /// Private cloning constructor allows to set everything, except [updatedAt].
+  /// Using [now] a value for [updatedAt] may be manually provided
+  ///for specific unit tests.
   Task._clone({
     required this.id,
     required this.topicId,
