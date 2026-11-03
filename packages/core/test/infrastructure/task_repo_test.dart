@@ -10,15 +10,11 @@ void main() {
         final taskRepo = CoreTaskRepository();
         expect(taskRepo.allTaskCount(), equals(0));
 
-        final item = Task(
-          id: 't1',
-          title: 'Finish docs',
-          importance: 100,
-        ).validate();
+        final item = Task(title: 'Finish docs', importance: 100).validate();
         final updated = taskRepo.addTask(item);
         expect(updated.allTaskCount(), equals(1));
 
-        final removed = updated.removeTask('t1');
+        final removed = updated.removeTask(item.id);
         expect(removed.allTaskCount(), equals(0));
       });
 
@@ -26,18 +22,18 @@ void main() {
           'When toggled closed and reopened, '
           'Then open/closed counts update and importance is preserved', () {
         final taskRepo = CoreTaskRepository();
-        final task = Task(id: 't1', title: 'Task 1', importance: 75).validate();
+        final task = Task(title: 'Task 1', importance: 75).validate();
         final filledRepo = taskRepo.addTask(task);
         expect(filledRepo.openTaskCount(), equals(1));
         expect(filledRepo.closedTaskCount(), equals(0));
 
-        final closed = filledRepo.closeTask('t1');
+        final closed = filledRepo.closeTask(task.id);
         expect(closed.openTaskCount(), equals(0));
         expect(closed.closedTaskCount(), equals(1));
         expect(closed.closedTasks().first.isClosed, isTrue);
         expect(closed.closedTasks().first.importance, equals(75));
 
-        final reopened = closed.reopenTask('t1');
+        final reopened = closed.reopenTask(task.id);
         expect(reopened.openTaskCount(), equals(1));
         expect(reopened.closedTaskCount(), equals(0));
       });
@@ -46,19 +42,16 @@ void main() {
     group('REQ-DB-3: Prioritised open task listing (all and by topic)', () {
       final priority = CorePriority();
       final lowTask = Task(
-        id: 't-low',
         topicId: 'work',
         title: 'Low priority task',
         importance: 20,
       ).validate();
       final highTask = Task(
-        id: 't-high',
         topicId: 'work',
         title: 'High priority task',
         importance: 90,
       ).validate();
       final homeTask = Task(
-        id: 't-home',
         topicId: 'home',
         title: 'Medium home task',
         importance: 50,
@@ -71,12 +64,12 @@ void main() {
             .addTask(lowTask)
             .addTask(highTask)
             .addTask(homeTask)
-            .closeTask('t-home');
+            .closeTask(homeTask.id);
 
         final openPrioritized = repo.prioritizedItems(priority);
         expect(
           openPrioritized.map((v) => v.id).toList(),
-          equals(['t-high', 't-low']),
+          equals([highTask.id, lowTask.id]),
         );
       });
 
@@ -86,7 +79,6 @@ void main() {
         'Then only open tasks for that topic are returned in descending order',
         () {
           final extraWorkTask = Task(
-            id: 't-closed-work',
             topicId: 'work',
             title: 'Closed work task',
             importance: 100,
@@ -97,7 +89,7 @@ void main() {
               .addTask(highTask)
               .addTask(homeTask)
               .addTask(extraWorkTask)
-              .closeTask('t-closed-work');
+              .closeTask(extraWorkTask.id);
 
           final workPrioritized = repo.prioritizedItemsByTopic(
             'work',
@@ -105,11 +97,11 @@ void main() {
           );
           expect(
             workPrioritized.map((v) => v.id).toList(),
-            equals(['t-high', 't-low']),
+            equals([highTask.id, lowTask.id]),
           );
           expect(
             repo.closedTasksForTopic('work').map((v) => v.id).toList(),
-            equals(['t-closed-work']),
+            equals([extraWorkTask.id]),
           );
         },
       );
@@ -120,15 +112,15 @@ void main() {
     test('Given an empty topic repository, '
         'When topics are added and removed, '
         'Then getTopic reflects the repository state', () {
-      const topic = Topic(id: 'work', name: 'Work Projects');
+      final topic = Topic(title: 'Work Projects');
       final repo = CoreTopicRepository();
-      expect(repo.getTopic('work'), isNull);
+      expect(repo.getTopic(topic.id), isNull);
 
       final withTopic = repo.addTopic(topic);
-      expect(withTopic.getTopic('work'), equals(topic));
+      expect(withTopic.getTopic(topic.id), equals(topic));
 
       final withoutTopic = withTopic.removeTopic(topic);
-      expect(withoutTopic.getTopic('work'), isNull);
+      expect(withoutTopic.getTopic(topic.id), isNull);
     });
   });
 }
