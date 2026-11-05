@@ -17,7 +17,7 @@ class CoreTopicRepository implements TopicRepository {
 
   // TODO: Decide whether to return `Iterable<Topic>` instead.
   @override
-  Iterable<Topic> allTopics() {
+  Iterable<Topic> get allTopics {
     return _topics.values;
   }
 
