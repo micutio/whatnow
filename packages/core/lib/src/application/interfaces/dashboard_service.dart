@@ -12,7 +12,7 @@ abstract interface class DashboardService {
   });
 
   /// Always contains _at least_ one element: the unnamed topic.
-  List<Topic> getAllTopics();
+  List<Topic> get allTopics;
 
   /// Returns the topic matching [id] or null if it does not exist.
   Topic? tryGetTopicById(String id);
@@ -32,13 +32,13 @@ abstract interface class DashboardService {
   });
 
   /// Returns open and closed tasks for all topics.
-  List<ValidatedTask> getAll();
+  List<ValidatedTask> get allTasks;
 
   /// Returns only open tasks, sorted descending by priority.
-  List<ValidatedTask> getPrioritized();
+  List<ValidatedTask> get prioritizedTasks;
 
   /// Returns all closed Tasks;
-  List<ValidatedTask> getClosed();
+  List<ValidatedTask> get closedTasks;
 
   /// Returns open and closed tasks for a topic.
   ///

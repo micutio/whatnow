@@ -32,9 +32,7 @@ class Dashboard implements DashboardService {
   }
 
   @override
-  List<Topic> getAllTopics() {
-    return topicRepo.allTopics().toList();
-  }
+  List<Topic> get allTopics => topicRepo.allTopics().toList();
 
   @override
   Topic? tryGetTopicById(String id) {
@@ -74,19 +72,17 @@ class Dashboard implements DashboardService {
   }
 
   @override
-  List<ValidatedTask> getAll() {
-    return [...taskRepo.prioritizedItems(priority), ...taskRepo.closedTasks()];
-  }
+  List<ValidatedTask> get allTasks => [
+    ...taskRepo.prioritizedItems(priority),
+    ...taskRepo.closedTasks(),
+  ];
 
   @override
-  List<ValidatedTask> getPrioritized() {
-    return taskRepo.prioritizedItems(priority);
-  }
+  List<ValidatedTask> get prioritizedTasks =>
+      taskRepo.prioritizedItems(priority);
 
   @override
-  List<ValidatedTask> getClosed() {
-    return taskRepo.closedTasks();
-  }
+  List<ValidatedTask> get closedTasks => taskRepo.closedTasks();
 
   @override
   List<ValidatedTask> getForTopic(String id) {
