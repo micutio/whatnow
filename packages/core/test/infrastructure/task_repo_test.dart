@@ -40,7 +40,7 @@ void main() {
     });
 
     group('REQ-DB-3: Prioritised open task listing (all and by topic)', () {
-      final priority = CorePriority();
+      final priority = ImportanceOnly();
       final lowTask = Task(
         topicId: 'work',
         title: 'Low priority task',
@@ -91,7 +91,7 @@ void main() {
               .addTask(extraWorkTask)
               .closeTask(extraWorkTask.id);
 
-          final workPrioritized = repo.prioritizedItemsByTopic(
+          final workPrioritized = repo.prioritizedItemsForTopic(
             'work',
             priority,
           );

@@ -14,13 +14,13 @@ abstract interface class TaskRepository {
 
   /// Returns open tasks in a prioritised order,
   /// determined by the given priority calculation.
-  List<ValidatedTask> prioritizedItems(Priority priority);
+  List<ValidatedTask> prioritizedItems(PriorityMetric priority);
 
   /// Returns open tasks of a topic in a prioritised order,
   /// determined by the given priority calculation.
-  List<ValidatedTask> prioritizedItemsByTopic(
+  List<ValidatedTask> prioritizedItemsForTopic(
     String topicTag,
-    Priority priority,
+    PriorityMetric priority,
   );
 
   /// Returns all closed tasks.

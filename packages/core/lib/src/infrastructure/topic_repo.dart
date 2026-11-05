@@ -3,7 +3,9 @@ import '../domain/repositories/topic_repository.dart';
 
 class CoreTopicRepository implements TopicRepository {
   CoreTopicRepository({Map<String, Topic>? topics})
-    : _topics = Map<String, Topic>.unmodifiable(topics ?? const {});
+    : _topics = Map<String, Topic>.unmodifiable(
+        topics ?? {Topic.defaultId: Topic.unnamed},
+      );
 
   final Map<String, Topic> _topics;
 
@@ -11,6 +13,12 @@ class CoreTopicRepository implements TopicRepository {
   TopicRepository addTopic(Topic t) {
     final nextTopics = Map<String, Topic>.of(_topics)..[t.id] = t;
     return CoreTopicRepository(topics: nextTopics);
+  }
+
+  // TODO: Decide whether to return `Iterable<Topic>` instead.
+  @override
+  Iterable<Topic> allTopics() {
+    return _topics.values;
   }
 
   @override

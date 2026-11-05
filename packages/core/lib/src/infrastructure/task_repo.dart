@@ -46,13 +46,13 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  List<ValidatedTask> prioritizedItems(Priority priority) =>
+  List<ValidatedTask> prioritizedItems(PriorityMetric priority) =>
       _prioritize(_items.where((t) => !t.isClosed), priority);
 
   @override
-  List<ValidatedTask> prioritizedItemsByTopic(
+  List<ValidatedTask> prioritizedItemsForTopic(
     String topicTag,
-    Priority priority,
+    PriorityMetric priority,
   ) => _prioritize(
     _items.where((t) => !t.isClosed && t.topicId == topicTag),
     priority,
@@ -60,7 +60,7 @@ class CoreTaskRepository implements TaskRepository {
 
   List<ValidatedTask> _prioritize(
     Iterable<ValidatedTask> tasks,
-    Priority priority,
+    PriorityMetric priority,
   ) {
     final items = tasks.toList()
       ..sort(
