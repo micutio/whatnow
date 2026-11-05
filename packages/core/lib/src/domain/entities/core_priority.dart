@@ -4,6 +4,8 @@ import 'task.dart';
 /// Primary implementation of Priority.
 /// For now just returns importance.
 class ImportanceOnly implements PriorityMetric {
+  const ImportanceOnly();
+
   @override
   int getPriority(ValidatedTask task, {DateTime? at}) {
     return task.importance;
