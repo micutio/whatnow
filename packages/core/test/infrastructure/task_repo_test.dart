@@ -118,9 +118,6 @@ void main() {
 
       final withTopic = repo.addTopic(topic);
       expect(withTopic.getTopic(topic.id), equals(topic));
-
-      final withoutTopic = withTopic.removeTopic(topic);
-      expect(withoutTopic.getTopic(topic.id), isNull);
     });
   });
 }

@@ -18,6 +18,7 @@ This document establishes the functional requirements for the core `Task` data m
 
 * REQ-TO-1: A topic _must_ contain a title (1-100 characters).
 * REQ-TO-2: A topic _can_ contain a description and a color.
+* REQ-TO-3: No two topics can have the same title or Id.
 
 ### 2.3 Dashboard Lifecycle and Business Rules
 

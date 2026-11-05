@@ -27,7 +27,7 @@ class Task {
          topicId: topicId ?? Topic.unnamed.id,
          title: title,
          description: description,
-         dueAt: dueAt,
+         dueAt: dueAt?.toUtc(),
          importance: importance,
          timestamp: (now ?? DateTime.now()).toUtc(),
        );
@@ -40,8 +40,8 @@ class Task {
     required this.dueAt,
     required this.importance,
     required DateTime timestamp,
-  }) : createdAt = timestamp,
-       updatedAt = timestamp,
+  }) : createdAt = timestamp.toUtc(),
+       updatedAt = timestamp.toUtc(),
        isClosed = false;
 
   /// Private cloning constructor allows to set everything, except [updatedAt].
@@ -103,11 +103,11 @@ class Task {
       topicId: topicId ?? this.topicId,
       title: title ?? this.title,
       description: description ?? this.description,
-      createdAt: createdAt ?? this.createdAt,
-      dueAt: dueAt ?? this.dueAt,
+      createdAt: createdAt != null ? createdAt.toUtc() : this.createdAt,
+      dueAt: dueAt != null ? dueAt.toUtc() : this.dueAt,
       importance: importance ?? this.importance,
       isClosed: isClosed ?? this.isClosed,
-      now: now,
+      now: now?.toUtc(),
     );
   }
 
