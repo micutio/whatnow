@@ -15,7 +15,6 @@ class CoreTopicRepository implements TopicRepository {
     return CoreTopicRepository(topics: nextTopics);
   }
 
-  // TODO: Decide whether to return `Iterable<Topic>` instead.
   @override
   Iterable<Topic> get allTopics {
     return _topics.values;
@@ -23,10 +22,4 @@ class CoreTopicRepository implements TopicRepository {
 
   @override
   Topic? getTopic(String topicTag) => _topics[topicTag];
-
-  @override
-  TopicRepository removeTopic(Topic t) {
-    final nextTopics = Map<String, Topic>.of(_topics)..remove(t.id);
-    return CoreTopicRepository(topics: nextTopics);
-  }
 }

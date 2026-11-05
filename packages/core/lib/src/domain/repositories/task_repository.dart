@@ -1,6 +1,8 @@
 import '../entities/task.dart';
 import '../interfaces/priority.dart';
 
+// TODO: Maybe change List to UnmodifiableListView.
+
 /// Holds all tasks of the application.
 abstract interface class TaskRepository {
   TaskRepository addTask(ValidatedTask t);

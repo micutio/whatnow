@@ -4,8 +4,7 @@ import '../domain/repositories/task_repository.dart';
 
 /// Topics are groupings of tasks, such as projects and ideas.
 class CoreTaskRepository implements TaskRepository {
-  CoreTaskRepository({List<ValidatedTask>? items})
-    : _items = List<ValidatedTask>.unmodifiable(items ?? const []);
+  CoreTaskRepository({List<ValidatedTask>? items}) : _items = items ?? const [];
 
   final List<ValidatedTask> _items;
 
@@ -66,13 +65,13 @@ class CoreTaskRepository implements TaskRepository {
       ..sort(
         (a, b) => priority.getPriority(b).compareTo(priority.getPriority(a)),
       );
-    return List.unmodifiable(items);
+    return items;
   }
 
   @override
   List<ValidatedTask> get closedTasks {
     final items = _items.where((v) => v.isClosed).toList();
-    return List.unmodifiable(items);
+    return items;
   }
 
   @override
@@ -80,7 +79,7 @@ class CoreTaskRepository implements TaskRepository {
     final items = _items
         .where((v) => v.topicId == topicTag && v.isClosed)
         .toList();
-    return List.unmodifiable(items);
+    return items;
   }
 
   @override
