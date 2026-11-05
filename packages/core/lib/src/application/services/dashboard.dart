@@ -1,6 +1,10 @@
-import '../../../whatnow_core.dart';
-
-// TODO: How to handle queries for topics that don't exist?
+import '../../domain/entities/task.dart';
+import '../../domain/entities/topic.dart';
+import '../../domain/entities/topic_color.dart';
+import '../../domain/interfaces/priority.dart';
+import '../../domain/repositories/task_repository.dart';
+import '../../domain/repositories/topic_repository.dart';
+import '../interfaces/dashboard_service.dart';
 
 class Dashboard implements DashboardService {
   Dashboard({

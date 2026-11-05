@@ -1,4 +1,5 @@
-import '../../../whatnow_core.dart';
+import '../interfaces/priority.dart';
+import 'task.dart';
 
 /// Primary implementation of Priority.
 /// For now just returns importance.

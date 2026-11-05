@@ -1,4 +1,6 @@
-import '../../../whatnow_core.dart';
+import '../../domain/entities/task.dart';
+import '../../domain/entities/topic.dart';
+import '../../domain/entities/topic_color.dart';
 
 /// Dashboard Service is the boundary between user input and verified objects.
 abstract interface class DashboardService {
