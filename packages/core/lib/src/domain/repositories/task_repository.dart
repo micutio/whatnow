@@ -24,17 +24,17 @@ abstract interface class TaskRepository {
   );
 
   /// Returns all closed tasks.
-  List<ValidatedTask> closedTasks();
+  List<ValidatedTask> get closedTasks;
 
   /// Returns closed tasks for a topic.
   List<ValidatedTask> closedTasksForTopic(String topicTag);
 
   /// Returns the count of open and closed tasks in this repository.
-  int allTaskCount();
+  int get allTaskCount;
 
   /// Returns the count of open only tasks in this repository.
-  int openTaskCount();
+  int get openTaskCount;
 
   /// Returns the count of closed only tasks in this repository.
-  int closedTaskCount();
+  int get closedTaskCount;
 }

@@ -32,7 +32,7 @@ class Dashboard implements DashboardService {
   }
 
   @override
-  List<Topic> get allTopics => topicRepo.allTopics().toList();
+  List<Topic> get allTopics => topicRepo.allTopics.toList();
 
   @override
   Topic? tryGetTopicById(String id) {
@@ -41,7 +41,7 @@ class Dashboard implements DashboardService {
 
   @override
   Topic? tryGetTopicByTitle(String title) {
-    final candidates = topicRepo.allTopics().where((t) => t.title == title);
+    final candidates = topicRepo.allTopics.where((t) => t.title == title);
     if (candidates.isEmpty) {
       return null;
     }
@@ -74,7 +74,7 @@ class Dashboard implements DashboardService {
   @override
   List<ValidatedTask> get allTasks => [
     ...taskRepo.prioritizedItems(priority),
-    ...taskRepo.closedTasks(),
+    ...taskRepo.closedTasks,
   ];
 
   @override
@@ -82,7 +82,7 @@ class Dashboard implements DashboardService {
       taskRepo.prioritizedItems(priority);
 
   @override
-  List<ValidatedTask> get closedTasks => taskRepo.closedTasks();
+  List<ValidatedTask> get closedTasks => taskRepo.closedTasks;
 
   @override
   List<ValidatedTask> getForTopic(String id) {

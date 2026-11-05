@@ -70,7 +70,7 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  List<ValidatedTask> closedTasks() {
+  List<ValidatedTask> get closedTasks {
     final items = _items.where((v) => v.isClosed).toList();
     return List.unmodifiable(items);
   }
@@ -84,10 +84,10 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  int allTaskCount() => _items.length;
+  int get allTaskCount => _items.length;
 
   @override
-  int openTaskCount() {
+  int get openTaskCount {
     var count = 0;
     for (final validated in _items) {
       if (!validated.isClosed) count++;
@@ -96,7 +96,7 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  int closedTaskCount() {
+  int get closedTaskCount {
     var count = 0;
     for (final validated in _items) {
       if (validated.isClosed) count++;

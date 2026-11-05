@@ -8,14 +8,14 @@ void main() {
           'When a validated task is added and then removed, '
           'Then the task count reflects each change', () {
         final taskRepo = CoreTaskRepository();
-        expect(taskRepo.allTaskCount(), equals(0));
+        expect(taskRepo.allTaskCount, equals(0));
 
         final item = Task(title: 'Finish docs', importance: 100).validate();
         final updated = taskRepo.addTask(item);
-        expect(updated.allTaskCount(), equals(1));
+        expect(updated.allTaskCount, equals(1));
 
         final removed = updated.removeTask(item.id);
-        expect(removed.allTaskCount(), equals(0));
+        expect(removed.allTaskCount, equals(0));
       });
 
       test('Given an open task with importance, '
@@ -24,23 +24,23 @@ void main() {
         final taskRepo = CoreTaskRepository();
         final task = Task(title: 'Task 1', importance: 75).validate();
         final filledRepo = taskRepo.addTask(task);
-        expect(filledRepo.openTaskCount(), equals(1));
-        expect(filledRepo.closedTaskCount(), equals(0));
+        expect(filledRepo.openTaskCount, equals(1));
+        expect(filledRepo.closedTaskCount, equals(0));
 
         final closed = filledRepo.closeTask(task.id);
-        expect(closed.openTaskCount(), equals(0));
-        expect(closed.closedTaskCount(), equals(1));
-        expect(closed.closedTasks().first.isClosed, isTrue);
-        expect(closed.closedTasks().first.importance, equals(75));
+        expect(closed.openTaskCount, equals(0));
+        expect(closed.closedTaskCount, equals(1));
+        expect(closed.closedTasks.first.isClosed, isTrue);
+        expect(closed.closedTasks.first.importance, equals(75));
 
         final reopened = closed.reopenTask(task.id);
-        expect(reopened.openTaskCount(), equals(1));
-        expect(reopened.closedTaskCount(), equals(0));
+        expect(reopened.openTaskCount, equals(1));
+        expect(reopened.closedTaskCount, equals(0));
       });
     });
 
     group('REQ-DB-3: Prioritised open task listing (all and by topic)', () {
-      final priority = ImportanceOnly();
+      const priority = ImportanceOnly();
       final lowTask = Task(
         topicId: 'work',
         title: 'Low priority task',
