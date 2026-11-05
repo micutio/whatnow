@@ -41,11 +41,10 @@ class Dashboard implements DashboardService {
 
   @override
   Topic? tryGetTopicByTitle(String title) {
-    final candidates = topicRepo.allTopics.where((t) => t.title == title);
-    if (candidates.isEmpty) {
-      return null;
+    for (final topic in topicRepo.allTopics) {
+      if (topic.title == title) return topic;
     }
-    return candidates.first;
+    return null;
   }
 
   @override
