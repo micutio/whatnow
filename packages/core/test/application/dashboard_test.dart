@@ -4,7 +4,12 @@ import 'package:whatnow_core/whatnow_core.dart';
 void main() {
   // Dashboard lifecycle tests
 
-  final dashboard = Dashboard();
+  final PriorityMetric priorityMetric = ImportanceOnly();
+  final dashboard = Dashboard(
+    priority: priorityMetric,
+    topicRepo: CoreTopicRepository(),
+    taskRepo: CoreTaskRepository(),
+  );
 
   group('RQ-DB-1: A new task must belong to a topic, or unnamed', () {
     test('An empty dashboard contains only the unnamed topic', () {
@@ -13,37 +18,41 @@ void main() {
     });
 
     test('The unnamed topic should be available through its ID.', () {
-      final Topic? unnamedTopic = dashboard.tryGetTopicById(Topic.unnamed);
+      final unnamedTopic = dashboard.tryGetTopicById(Topic.defaultId);
       expect(unnamedTopic, isNotNull);
 
-      final Topic? invalidTopic = dashboard.tryGetTopicById('invalid Id');
+      final invalidTopic = dashboard.tryGetTopicById('invalid Id');
       expect(invalidTopic, isNull);
     });
 
     test('A new topic should be able to be found after creating it.', () {
-      dashboard.createNewTopic(name: 'newTopic', description: 'none');
+      dashboard.createNewTopic(title: 'newTopic', description: 'none');
       final allTopics = dashboard.getAllTopics();
       expect(allTopics.length, equals(2));
 
-      final Topic? newTopic = dashboard.tryGetTopicByName('newTopic');
+      final newTopic = dashboard.tryGetTopicByTitle('newTopic');
       expect(newTopic, isNotNull);
 
-      final Topic? invalidTopic = dashboard.tryGetTopicByName('invalidTopic');
+      final invalidTopic = dashboard.tryGetTopicByTitle('invalidTopic');
       expect(invalidTopic, isNull);
     });
 
     test('A new valid task can be created from/for the unnamed topic.', () {
-      dashboard.createTask(title: 'New Task', importance: 50);
-      final unnamedTopicTasks = dashboard.tryGetTasksForTopic(Topic.unnamed);
+      dashboard.createTask(
+        topicId: Topic.defaultId,
+        title: 'New Task',
+        importance: 50,
+      );
+      final unnamedTopicTasks = dashboard.getForTopic(Topic.defaultId);
       expect(unnamedTopicTasks.length, equals(1));
     });
 
     test('A new task cannot be created from an invalid topic', () {
       expect(
-        dashboard.createTask(
+        () => dashboard.createTask(
+          topicId: 'invalid title',
           title: 'New Task',
           importance: 50,
-          topicTitle: 'invalidTitle',
         ),
         throwsArgumentError,
       );

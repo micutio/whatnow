@@ -2,6 +2,9 @@ library;
 
 // TODO: See which parts of this _really_ need to be exported.
 
+export 'src/application/interfaces/dashboard_service.dart';
+export 'src/application/services/dashboard.dart';
+export 'src/domain/entities/core_priority.dart';
 export 'src/domain/entities/eisenhower_quadrant.dart';
 export 'src/domain/entities/task.dart';
 export 'src/domain/entities/topic.dart';

@@ -55,8 +55,8 @@ class _WhatnowHomePageState extends State<WhatnowHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final corePrio = CorePriority();
-    final prioritized = _taskRepo.prioritizedItems(corePrio);
+    final priorityMetric = ImportanceOnly();
+    final prioritized = _taskRepo.prioritizedItems(priorityMetric);
 
     return Scaffold(
       appBar: AppBar(
