@@ -1,7 +1,7 @@
+import 'dart:collection';
+
 import '../entities/task.dart';
 import '../interfaces/priority.dart';
-
-// TODO: Maybe change List to UnmodifiableListView.
 
 /// Holds all tasks of the application.
 abstract interface class TaskRepository {
@@ -16,20 +16,20 @@ abstract interface class TaskRepository {
 
   /// Returns open tasks in a prioritised order,
   /// determined by the given priority calculation.
-  List<ValidatedTask> prioritizedItems(PriorityMetric priority);
+  UnmodifiableListView<ValidatedTask> prioritizedItems(PriorityMetric priority);
 
   /// Returns open tasks of a topic in a prioritised order,
   /// determined by the given priority calculation.
-  List<ValidatedTask> prioritizedItemsForTopic(
+  UnmodifiableListView<ValidatedTask> prioritizedItemsForTopic(
     String topicTag,
     PriorityMetric priority,
   );
 
   /// Returns all closed tasks.
-  List<ValidatedTask> get closedTasks;
+  UnmodifiableListView<ValidatedTask> get closedTasks;
 
   /// Returns closed tasks for a topic.
-  List<ValidatedTask> closedTasksForTopic(String topicTag);
+  UnmodifiableListView<ValidatedTask> closedTasksForTopic(String topicTag);
 
   /// Returns the count of open and closed tasks in this repository.
   int get allTaskCount;
