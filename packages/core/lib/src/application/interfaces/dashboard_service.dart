@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../../domain/entities/task.dart';
 import '../../domain/entities/topic.dart';
 import '../../domain/entities/topic_color.dart';
@@ -32,24 +34,24 @@ abstract interface class DashboardService {
   });
 
   /// Returns open and closed tasks for all topics.
-  List<ValidatedTask> get allTasks;
+  UnmodifiableListView<ValidatedTask> get allTasks;
 
   /// Returns only open tasks, sorted descending by priority.
-  List<ValidatedTask> get prioritizedTasks;
+  UnmodifiableListView<ValidatedTask> get prioritizedTasks;
 
   /// Returns all closed Tasks;
-  List<ValidatedTask> get closedTasks;
+  UnmodifiableListView<ValidatedTask> get closedTasks;
 
   /// Returns open and closed tasks for a topic.
   ///
   /// List is empty if the topic does not exist. // TODO: Or should it be null?
-  List<ValidatedTask> getForTopic(String id);
+  UnmodifiableListView<ValidatedTask> getForTopic(String id);
 
   /// Returns only open tasks, sorted descending by priority.
   /// List is empty if the topic does not exist. // TODO: Or should it be null?
-  List<ValidatedTask> getPrioritizedForTopic(String id);
+  UnmodifiableListView<ValidatedTask> getPrioritizedForTopic(String id);
 
   /// Returns closed tasks for a topic.
   /// List is empty if the topic does not exist.
-  List<ValidatedTask> getClosedForTopic(String id);
+  UnmodifiableListView<ValidatedTask> getClosedForTopic(String id);
 }

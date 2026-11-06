@@ -1,12 +1,15 @@
+import 'dart:collection';
+
 import '../domain/entities/task.dart';
 import '../domain/interfaces/priority.dart';
 import '../domain/repositories/task_repository.dart';
 
 /// Topics are groupings of tasks, such as projects and ideas.
 class CoreTaskRepository implements TaskRepository {
-  CoreTaskRepository({List<ValidatedTask>? items}) : _items = items ?? const [];
+  CoreTaskRepository({List<ValidatedTask>? items})
+    : _items = UnmodifiableListView(items ?? const []);
 
-  final List<ValidatedTask> _items;
+  final UnmodifiableListView<ValidatedTask> _items;
 
   @override
   TaskRepository addTask(ValidatedTask task) {
@@ -45,11 +48,12 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  List<ValidatedTask> prioritizedItems(PriorityMetric priority) =>
-      _prioritize(_items.where((t) => !t.isClosed), priority);
+  UnmodifiableListView<ValidatedTask> prioritizedItems(
+    PriorityMetric priority,
+  ) => _prioritize(_items.where((t) => !t.isClosed), priority);
 
   @override
-  List<ValidatedTask> prioritizedItemsForTopic(
+  UnmodifiableListView<ValidatedTask> prioritizedItemsForTopic(
     String topicTag,
     PriorityMetric priority,
   ) => _prioritize(
@@ -57,29 +61,32 @@ class CoreTaskRepository implements TaskRepository {
     priority,
   );
 
-  List<ValidatedTask> _prioritize(
+  UnmodifiableListView<ValidatedTask> _prioritize(
     Iterable<ValidatedTask> tasks,
     PriorityMetric priority,
   ) {
+    final now = DateTime.now().toUtc();
     final items = tasks.toList()
       ..sort(
-        (a, b) => priority.getPriority(b).compareTo(priority.getPriority(a)),
+        (a, b) => priority
+            .getPriority(b, at: now)
+            .compareTo(priority.getPriority(a, at: now)),
       );
-    return items;
+    return UnmodifiableListView(items);
   }
 
   @override
-  List<ValidatedTask> get closedTasks {
-    final items = _items.where((v) => v.isClosed).toList();
-    return items;
+  UnmodifiableListView<ValidatedTask> get closedTasks {
+    final items = _items.where((v) => v.isClosed).toList(growable: false);
+    return UnmodifiableListView(items);
   }
 
   @override
-  List<ValidatedTask> closedTasksForTopic(String topicTag) {
+  UnmodifiableListView<ValidatedTask> closedTasksForTopic(String topicTag) {
     final items = _items
         .where((v) => v.topicId == topicTag && v.isClosed)
-        .toList();
-    return items;
+        .toList(growable: false);
+    return UnmodifiableListView(items);
   }
 
   @override

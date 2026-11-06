@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../domain/entities/topic.dart';
 import '../domain/repositories/topic_repository.dart';
 
@@ -16,8 +18,8 @@ class CoreTopicRepository implements TopicRepository {
   }
 
   @override
-  Iterable<Topic> get allTopics {
-    return _topics.values;
+  UnmodifiableListView<Topic> get allTopics {
+    return UnmodifiableListView(_topics.values.toList(growable: false));
   }
 
   @override

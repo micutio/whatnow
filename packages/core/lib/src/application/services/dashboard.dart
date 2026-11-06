@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../../domain/entities/task.dart';
 import '../../domain/entities/topic.dart';
 import '../../domain/entities/topic_color.dart';
@@ -8,14 +10,14 @@ import '../interfaces/dashboard_service.dart';
 
 class Dashboard implements DashboardService {
   Dashboard({
-    required this.taskRepo,
-    required this.topicRepo,
-    required this.priority,
+    required this._taskRepo,
+    required this._topicRepo,
+    required this._priority,
   });
 
-  TaskRepository taskRepo;
-  TopicRepository topicRepo;
-  PriorityMetric priority;
+  TaskRepository _taskRepo;
+  TopicRepository _topicRepo;
+  final PriorityMetric _priority;
 
   @override
   void createNewTopic({
@@ -28,20 +30,20 @@ class Dashboard implements DashboardService {
       description: description,
       color: color ?? TopicColor.white,
     );
-    topicRepo = topicRepo.addTopic(topic);
+    _topicRepo = _topicRepo.addTopic(topic);
   }
 
   @override
-  List<Topic> get allTopics => topicRepo.allTopics.toList();
+  UnmodifiableListView<Topic> get allTopics => _topicRepo.allTopics;
 
   @override
   Topic? tryGetTopicById(String id) {
-    return topicRepo.getTopic(id);
+    return _topicRepo.getTopic(id);
   }
 
   @override
   Topic? tryGetTopicByTitle(String title) {
-    for (final topic in topicRepo.allTopics) {
+    for (final topic in _topicRepo.allTopics) {
       if (topic.title == title) return topic;
     }
     return null;
@@ -67,37 +69,37 @@ class Dashboard implements DashboardService {
       dueAt: dueAt,
     );
     final validatedTask = task.validate();
-    taskRepo = taskRepo.addTask(validatedTask);
+    _taskRepo = _taskRepo.addTask(validatedTask);
   }
 
   @override
-  List<ValidatedTask> get allTasks => [
-    ...taskRepo.prioritizedItems(priority),
-    ...taskRepo.closedTasks,
-  ];
+  UnmodifiableListView<ValidatedTask> get allTasks => UnmodifiableListView([
+    ..._taskRepo.prioritizedItems(_priority),
+    ..._taskRepo.closedTasks,
+  ]);
 
   @override
-  List<ValidatedTask> get prioritizedTasks =>
-      taskRepo.prioritizedItems(priority);
+  UnmodifiableListView<ValidatedTask> get prioritizedTasks =>
+      _taskRepo.prioritizedItems(_priority);
 
   @override
-  List<ValidatedTask> get closedTasks => taskRepo.closedTasks;
+  UnmodifiableListView<ValidatedTask> get closedTasks => _taskRepo.closedTasks;
 
   @override
-  List<ValidatedTask> getForTopic(String id) {
-    return [
-      ...taskRepo.prioritizedItemsForTopic(id, priority),
-      ...taskRepo.closedTasksForTopic(id),
-    ];
+  UnmodifiableListView<ValidatedTask> getForTopic(String id) {
+    return UnmodifiableListView([
+      ..._taskRepo.prioritizedItemsForTopic(id, _priority),
+      ..._taskRepo.closedTasksForTopic(id),
+    ]);
   }
 
   @override
-  List<ValidatedTask> getPrioritizedForTopic(String id) {
-    return taskRepo.prioritizedItemsForTopic(id, priority);
+  UnmodifiableListView<ValidatedTask> getPrioritizedForTopic(String id) {
+    return _taskRepo.prioritizedItemsForTopic(id, _priority);
   }
 
   @override
-  List<ValidatedTask> getClosedForTopic(String id) {
-    return taskRepo.closedTasksForTopic(id);
+  UnmodifiableListView<ValidatedTask> getClosedForTopic(String id) {
+    return _taskRepo.closedTasksForTopic(id);
   }
 }
