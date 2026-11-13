@@ -58,4 +58,25 @@ void main() {
       );
     });
   });
+
+  group(
+    'RQ-DB-2: Closing a task shall automatically set the `updatedAt` parameter',
+    () {
+      dashboard.createTask(
+        topicId: Topic.defaultId,
+        title: 'HighPrioTask',
+        importance: 100,
+      );
+      final task = dashboard.getPrioritizedForTopic(Topic.defaultId).first;
+      expect(task.title, equals('HighPrioTask'));
+      expect(task.importance, equals(100));
+      expect(task.updatedAt, equals(task.createdAt));
+
+      dashboard.closeTask(task.id);
+      final closedTask = dashboard.getClosedForTopic(Topic.defaultId).last;
+      expect(closedTask.title, equals('HighPrioTask'));
+      expect(closedTask.importance, equals(100));
+      expect(closedTask.updatedAt, isNot(equals(closedTask.createdAt)));
+    },
+  );
 }

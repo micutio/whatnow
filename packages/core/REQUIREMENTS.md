@@ -23,7 +23,7 @@ This document establishes the functional requirements for the core `Task` data m
 ### 2.3 Dashboard Lifecycle and Business Rules
 
 * REQ-DB-1: Each newly created task must belong to a topic. If none is supplied, it defaults to the _unnamed_ topic.
-* REQ-DB-2: Closing a task shall automatically set the `completedAt` parameter with the current system UTC server time.
+* REQ-DB-2: Closing a task shall automatically set the `updatedAt` parameter with the current system UTC server time.
 * REQ-DB-3: The system shall be able to display all open tasks in prioritised order for both: all and individual topics.
 * REQ-DB-4: The primary method of clearing tasks and topics shall be archiving. Archiving a topic will close all its associated tasks. The _unnamed_ topic _cannot_ be archived.
 * REQ-DB-5: The application will generate a recommendation for each task on how to tackle it. 
