@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:whatnow_core/whatnow_core.dart';
 
 void main() {
