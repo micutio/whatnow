@@ -9,7 +9,7 @@ abstract interface class TaskRepository {
   TaskRepository removeTask(String taskId);
 
   /// Closes a given open task.
-  TaskRepository closeTask(String taskId);
+  TaskRepository closeTask(String taskId, String topicId);
 
   /// Re-opens a given task.
   TaskRepository reopenTask(String taskId);

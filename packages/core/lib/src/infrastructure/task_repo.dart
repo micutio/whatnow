@@ -24,10 +24,10 @@ class CoreTaskRepository implements TaskRepository {
   }
 
   @override
-  TaskRepository closeTask(String taskId) {
+  TaskRepository closeTask(String taskId, String topicId) {
     return CoreTaskRepository(
       items: _items.map((item) {
-        if (item.id == taskId) {
+        if (item.id == taskId && item.topicId == topicId) {
           return item.copyWith(isClosed: true).validate();
         }
         return item;

@@ -33,6 +33,9 @@ abstract interface class DashboardService {
     DateTime? dueAt,
   });
 
+  /// Close the task matching [taskId] of the topic matching [topicId].
+  void closeTask(String taskId, String topicId);
+
   /// Returns open and closed tasks for all topics.
   UnmodifiableListView<ValidatedTask> get allTasks;
 

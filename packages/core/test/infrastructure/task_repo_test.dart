@@ -27,7 +27,7 @@ void main() {
         expect(filledRepo.openTaskCount, equals(1));
         expect(filledRepo.closedTaskCount, equals(0));
 
-        final closed = filledRepo.closeTask(task.id);
+        final closed = filledRepo.closeTask(task.id, task.topicId);
         expect(closed.openTaskCount, equals(0));
         expect(closed.closedTaskCount, equals(1));
         expect(closed.closedTasks.first.isClosed, isTrue);
@@ -64,7 +64,7 @@ void main() {
             .addTask(lowTask)
             .addTask(highTask)
             .addTask(homeTask)
-            .closeTask(homeTask.id);
+            .closeTask(homeTask.id, homeTask.topicId);
 
         final openPrioritized = repo.prioritizedItems(priority);
         expect(
@@ -89,7 +89,7 @@ void main() {
               .addTask(highTask)
               .addTask(homeTask)
               .addTask(extraWorkTask)
-              .closeTask(extraWorkTask.id);
+              .closeTask(extraWorkTask.id, extraWorkTask.topicId);
 
           final workPrioritized = repo.prioritizedItemsForTopic(
             'work',

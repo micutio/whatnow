@@ -73,6 +73,11 @@ class Dashboard implements DashboardService {
   }
 
   @override
+  void closeTask(String taskId, String topicId) {
+    _taskRepo = _taskRepo.closeTask(taskId, topicId);
+  }
+
+  @override
   UnmodifiableListView<ValidatedTask> get allTasks => UnmodifiableListView([
     ..._taskRepo.prioritizedItems(_priority),
     ..._taskRepo.closedTasks,
